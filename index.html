@@ -83,67 +83,21 @@ function setStatus(t,on=false){$('status').innerHTML='<span class="dot '+(on?'on
 function showRoom(){ $('connectCard').style.display='none'; $('room').classList.add('show'); $('me').textContent=myName||'You'; }
 function makeCode(){return Math.random().toString(36).slice(2,8).toUpperCase()}
 function connect(c){
-  conn=c;
-
-  setStatus('Connecting…');
-
-  const timeout=setTimeout(()=>{
-    if(!conn || !conn.open){
-      setStatus('Connection timed out — try again');
-      $('roomStatus').textContent='Could not connect. Check the room code and try again.';
-    }
-  },15000);
-
-  conn.on('open',()=>{
-    clearTimeout(timeout);
-
-    setStatus('Connected ♥',true);
-    $('dot').classList.add('on');
-    $('roomStatus').textContent='Connected — your Date Room is live';
-
-    showRoom();
-
-    conn.send({
-      type:'hello',
-      name:myName
-    });
-  });
-
-  conn.on('data',handle);
-
-  conn.on('close',()=>{
-    clearTimeout(timeout);
-    $('roomStatus').textContent='Connection closed';
-    $('dot').classList.remove('on');
-    setStatus('Disconnected');
-  });
-
-  conn.on('error',(err)=>{
-    clearTimeout(timeout);
-    console.error('PeerJS connection error:',err);
-    setStatus('Connection error — please try again');
-    $('roomStatus').textContent='Connection failed. Please create/join the room again.';
-  });
+ conn=c;
+ conn.on('open',()=>{setStatus('Connected ♥',true);$('dot').classList.add('on');$('roomStatus').textContent='Connected — your Date Room is live';showRoom();conn.send({type:'hello',name:myName});});
+ conn.on('data',handle);
+ conn.on('close',()=>{$('roomStatus').textContent='Connection closed';$('dot').classList.remove('on')});
 }
 $('create').onclick=()=>{
  myName=$('name').value.trim()||'Chuchu'; role='host'; roomCode=makeCode();
- peer=nepeer=new Peer('kunji-chuchu-'+roomCode,{
-  debug:2
-});w Peer('kunji-chuchu-'+roomCode);
+ peer=new Peer('kunji-chuchu-'+roomCode);
  peer.on('open',()=>{ $('code').classList.remove('hide');$('code').value=roomCode; $('code').readOnly=true; setStatus('Room created — share code '+roomCode);});
  peer.on('connection',c=>connect(c));
  peer.on('error',e=>setStatus('Connection error: '+e.type));
 }
 $('join').onclick=()=>{
  const n=$('name').value.trim(); myName=n||'Kunji'; const c=prompt('Enter the room code'); if(!c)return;
- roomCode=c.trimroomCode=c.trim().toUpperCase();
-
-if(!/^[A-Z0-9]{6}$/.test(roomCode)){
-  setStatus('Invalid room code');
-  return;
-}
-
-peer=new Peer();().toUpperCase(); peer=new Peer(); peer.on('open',()=>connect(peer.connect('kunji-chuchu-'+roomCode)));
+ roomCode=c.trim().toUpperCase(); peer=new Peer(); peer.on('open',()=>connect(peer.connect('kunji-chuchu-'+roomCode)));
  peer.on('error',e=>setStatus('Could not join: '+e.type));
 }
 function handle(d){
