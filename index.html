@@ -131,11 +131,9 @@ $('enterDate').onclick=()=>{
 
    peer.on('open',()=>{
      setStatus('Waiting for your person…');
-     $('roomStatus').textContent='Open this page on the other phone and tap Enter Our Date ♥';
-
-     // If the other person is already waiting, connect to them.
-     const c=peer.connect(datePeerId,{reliable:true});
-     c.on('open',()=>connect(c));
+     $('roomStatus').textContent='Waiting for the other phone…';
+     // The first phone owns the permanent Date Room ID and waits.
+     // It must NOT connect to itself.
    });
 
    peer.on('connection',c=>{
@@ -144,10 +142,12 @@ $('enterDate').onclick=()=>{
 
    peer.on('error',e=>{
      console.error('PeerJS error:',e);
+
      if(e.type==='unavailable-id'){
-       // This means the Date Room is already owned by the other phone.
-       // Create a temporary peer and connect to the permanent Date Room.
+       // The other phone already owns the Date Room ID.
+       // This phone becomes a temporary peer and connects to it.
        try{ peer.destroy(); }catch(err){}
+
        peer=new Peer({debug:2});
 
        peer.on('open',()=>{
@@ -160,6 +160,7 @@ $('enterDate').onclick=()=>{
          console.error('PeerJS fallback error:',err);
          setStatus('Could not connect: '+(err.type||'unknown'));
        });
+
      }else{
        setStatus('Connection error: '+(e.type||'unknown'));
      }
