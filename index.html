@@ -29,13 +29,12 @@ input,button{width:100%;border-radius:14px;border:1px solid var(--line);padding:
 <section class="hero"><div class="kicker">Private Date Room · V7</div><div class="title">Kunji <span>♥</span> Chuchu</div><div class="sub">Two phones. One little world.</div></section>
 
 <section id="connectCard" class="card">
-<h2>Open your Date Room</h2>
-<div class="hint">One person creates a room. The other joins using the room code. No account is required.</div>
-<input id="name" placeholder="Your name (Kunji / Chuchu)">
-<div class="row"><button id="create">Create Room</button><button class="secondary" id="join">Join Room</button></div>
-<input id="code" class="hide" placeholder="Enter room code">
-<div id="status" class="status"><span class="dot"></span><span>Not connected</span></div>
-</section>
+ <h2>Open your Date Room</h2>
+ <div class="hint">No room codes. Just choose your name and enter your little world together.</div>
+ <input id="name" placeholder="Your name (Kunji / Chuchu)">
+ <button id="enterDate">Enter Our Date ♥</button>
+ <div id="status" class="status"><span class="dot"></span><span>Ready to connect</span></div>
+ </section>
 
 <section id="room" class="room">
 <div class="card">
@@ -77,55 +76,101 @@ input,button{width:100%;border-radius:14px;border:1px solid var(--line);padding:
 </div>
 <div id="floating" class="floating"></div>
 <script>
-let peer=null, conn=null, role='', myName='', roomCode='';
+let peer=null, conn=null, myName='', datePeerId='kunji-chuchu-date-v7';
+const DATE_PEER_ID='kunji-chuchu-date-v7';
 const $=id=>document.getElementById(id);
 function setStatus(t,on=false){$('status').innerHTML='<span class="dot '+(on?'on':'')+'"></span><span>'+t+'</span>'}
 function showRoom(){ $('connectCard').style.display='none'; $('room').classList.add('show'); $('me').textContent=myName||'You'; }
-function makeCode(){return Math.random().toString(36).slice(2,8).toUpperCase()}
 function connect(c){
  conn=c;
- conn.on('open',()=>{setStatus('Connected ♥',true);$('dot').classList.add('on');$('roomStatus').textContent='Connected — your Date Room is live';showRoom();conn.send({type:'hello',name:myName});});
- conn.on('data',handle);
- conn.on('close',()=>{$('roomStatus').textContent='Connection closed';$('dot').classList.remove('on')});
-}
-$('create').onclick=()=>{
- myName=$('name').value.trim()||'Chuchu'; role='host'; roomCode=makeCode();
- peer=new Peer('kunji-chuchu-'+roomCode,{
-  host:'0.peerjs.com',
-  port:443,
-  secure:true,
-  path:'/',
-  debug:2
-});
- peer.on('open',()=>{ $('code').classList.remove('hide');$('code').value=roomCode; $('code').readOnly=true; setStatus('Room created — share code '+roomCode);});
- peer.on('connection',c=>connect(c));
- peer.on('error',e=>{
-  console.error('PeerJS error:',e);
-  setStatus('Connection error: '+(e.type||'unknown'));
-});
-}
-$('join').onclick=()=>{
- const n=$('name').value.trim(); myName=n||'Kunji'; const c=prompt('Enter the room code'); if(!c)return;
- roomCode=c.trim().toUpperCase(); peer=new Peer({
-  host:'0.peerjs.com',
-  port:443,
-  secure:true,
-  path:'/',
-  debug:2
-});
+ setStatus('Connecting…');
 
-peer.on('open',()=>{
-  setStatus('Connecting to room…');
-  const c=peer.connect('kunji-chuchu-'+roomCode,{
-    reliable:true
-  });
-  connect(c);
-});
- peer.on('error',e=>{
-  console.error('PeerJS join error:',e);
-  setStatus('Could not join: '+(e.type||'unknown'));
-});
+ const timeout=setTimeout(()=>{
+   if(!conn || !conn.open){
+     setStatus('Still looking for your person…');
+     $('roomStatus').textContent='Waiting for your person to connect…';
+   }
+ },12000);
+
+ conn.on('open',()=>{
+   clearTimeout(timeout);
+   setStatus('Connected ♥',true);
+   $('dot').classList.add('on');
+   $('roomStatus').textContent='Connected — your Date Room is live';
+   showRoom();
+   conn.send({type:'hello',name:myName});
+ });
+
+ conn.on('data',handle);
+
+ conn.on('close',()=>{
+   clearTimeout(timeout);
+   $('roomStatus').textContent='Connection closed';
+   $('dot').classList.remove('on');
+   setStatus('Disconnected');
+ });
+
+ conn.on('error',e=>{
+   clearTimeout(timeout);
+   console.error('PeerJS connection error:',e);
+   setStatus('Connection error — please try again');
+ });
 }
+
+$('enterDate').onclick=()=>{
+ try{
+   myName=$('name').value.trim() || 'Chuchu';
+   setStatus('Connecting…');
+
+   if(peer){
+     try{ peer.destroy(); }catch(e){}
+   }
+
+   // Both phones use the same permanent Date Room identity.
+   peer=new Peer(datePeerId,{debug:2});
+
+   peer.on('open',()=>{
+     setStatus('Waiting for your person…');
+     $('roomStatus').textContent='Open this page on the other phone and tap Enter Our Date ♥';
+
+     // If the other person is already waiting, connect to them.
+     const c=peer.connect(datePeerId,{reliable:true});
+     c.on('open',()=>connect(c));
+   });
+
+   peer.on('connection',c=>{
+     if(!conn || !conn.open) connect(c);
+   });
+
+   peer.on('error',e=>{
+     console.error('PeerJS error:',e);
+     if(e.type==='unavailable-id'){
+       // This means the Date Room is already owned by the other phone.
+       // Create a temporary peer and connect to the permanent Date Room.
+       try{ peer.destroy(); }catch(err){}
+       peer=new Peer({debug:2});
+
+       peer.on('open',()=>{
+         setStatus('Finding your person…');
+         const c=peer.connect(datePeerId,{reliable:true});
+         connect(c);
+       });
+
+       peer.on('error',err=>{
+         console.error('PeerJS fallback error:',err);
+         setStatus('Could not connect: '+(err.type||'unknown'));
+       });
+     }else{
+       setStatus('Connection error: '+(e.type||'unknown'));
+     }
+   });
+
+ }catch(e){
+   console.error('Date Room error:',e);
+   setStatus('Could not start: '+e.message);
+ }
+};
+
 function handle(d){
  if(d.type==='hello'){ $('them').textContent=d.name||'Your person'; }
  if(d.type==='action'){ if(d.action==='heart')floatHearts(8); if(d.action==='kiss')floatHearts(12,'💋'); if(d.action==='cut')doCake(false); if(d.action==='play')syncAudio(true); if(d.action==='pause')syncAudio(false); }
