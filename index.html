@@ -118,6 +118,8 @@ function connect(c){
 }
 
 $('enterDate').onclick=()=>{
+ console.log('ENTER DATE CLICKED');
+ setStatus('Starting connection…');
  try{
    myName=$('name').value.trim() || 'Chuchu';
    setStatus('Connecting…');
