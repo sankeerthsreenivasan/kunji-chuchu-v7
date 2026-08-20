@@ -90,15 +90,41 @@ function connect(c){
 }
 $('create').onclick=()=>{
  myName=$('name').value.trim()||'Chuchu'; role='host'; roomCode=makeCode();
- peer=new Peer('kunji-chuchu-'+roomCode);
+ peer=new Peer('kunji-chuchu-'+roomCode,{
+  host:'0.peerjs.com',
+  port:443,
+  secure:true,
+  path:'/',
+  debug:2
+});
  peer.on('open',()=>{ $('code').classList.remove('hide');$('code').value=roomCode; $('code').readOnly=true; setStatus('Room created — share code '+roomCode);});
  peer.on('connection',c=>connect(c));
- peer.on('error',e=>setStatus('Connection error: '+e.type));
+ peer.on('error',e=>{
+  console.error('PeerJS error:',e);
+  setStatus('Connection error: '+(e.type||'unknown'));
+});
 }
 $('join').onclick=()=>{
  const n=$('name').value.trim(); myName=n||'Kunji'; const c=prompt('Enter the room code'); if(!c)return;
- roomCode=c.trim().toUpperCase(); peer=new Peer(); peer.on('open',()=>connect(peer.connect('kunji-chuchu-'+roomCode)));
- peer.on('error',e=>setStatus('Could not join: '+e.type));
+ roomCode=c.trim().toUpperCase(); peer=new Peer({
+  host:'0.peerjs.com',
+  port:443,
+  secure:true,
+  path:'/',
+  debug:2
+});
+
+peer.on('open',()=>{
+  setStatus('Connecting to room…');
+  const c=peer.connect('kunji-chuchu-'+roomCode,{
+    reliable:true
+  });
+  connect(c);
+});
+ peer.on('error',e=>{
+  console.error('PeerJS join error:',e);
+  setStatus('Could not join: '+(e.type||'unknown'));
+});
 }
 function handle(d){
  if(d.type==='hello'){ $('them').textContent=d.name||'Your person'; }
