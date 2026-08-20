@@ -5,227 +5,1280 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#120812">
 <title>Kunji ♥ Chuchu — Date Room V7</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+
 <style>
-:root{--bg:#10080f;--card:#1d101c;--pink:#ff8fbd;--rose:#ffd1e2;--muted:#b9a6b3;--line:#ffffff18}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#4a183c 0,#180b17 38%,#0b070b 100%);color:#fff;font-family:Inter,sans-serif;min-height:100vh}
-.wrap{max-width:520px;margin:auto;padding:24px 18px 44px}.hero{text-align:center;padding:22px 0 14px}
-.kicker{letter-spacing:.24em;text-transform:uppercase;color:var(--pink);font-size:11px}.title{font:700 48px/1 Cormorant Garamond,serif;margin:10px 0 2px}.title span{color:var(--pink)}.sub{color:var(--muted);font-size:13px}
-.card{background:#ffffff0d;border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;backdrop-filter:blur(18px);box-shadow:0 16px 50px #0005}
-h2{font:600 26px Cormorant Garamond,serif;margin:0 0 8px}.hint{font-size:12px;color:var(--muted);line-height:1.5}
-input,button{width:100%;border-radius:14px;border:1px solid var(--line);padding:14px 15px;font:inherit}input{background:#0005;color:#fff;margin:8px 0}button{background:linear-gradient(135deg,#ff77ae,#ffb1cd);color:#240c18;font-weight:700;cursor:pointer;margin-top:8px}button.secondary{background:#ffffff0d;color:#fff}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:10px}.dot{width:9px;height:9px;border-radius:50%;background:#777}.dot.on{background:#65e6a1;box-shadow:0 0 12px #65e6a1}
-.room{display:none}.room.show{display:block}.bigheart{font-size:64px;text-align:center;animation:pulse 1.8s infinite}.names{text-align:center;font:600 28px Cormorant Garamond,serif}.names b{color:var(--pink)}
-@keyframes pulse{50%{transform:scale(1.12)}}.cake{position:relative;width:180px;height:125px;margin:12px auto 18px;cursor:pointer}.cake .top{position:absolute;left:18px;top:35px;width:144px;height:38px;background:#ffd5e5;border-radius:50%;box-shadow:0 14px 0 #ff8fbd}.cake .body{position:absolute;left:18px;top:54px;width:144px;height:55px;background:linear-gradient(#ff9fc3,#d95891);border-radius:0 0 22px 22px}.candle{position:absolute;z-index:2;left:82px;top:7px;width:15px;height:36px;background:#fff0f6;border-radius:4px}.flame{position:absolute;z-index:3;left:83px;top:-8px;font-size:22px;animation:flicker .5s infinite alternate}@keyframes flicker{to{transform:scale(1.2) rotate(3deg)}}.cut{animation:cut .8s forwards}@keyframes cut{50%{transform:rotate(-3deg) scale(.98);filter:brightness(1.3)}100%{transform:scale(.96);opacity:.85}}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.gallery img{width:100%;aspect-ratio:1;border-radius:12px;object-fit:cover;background:#0005}.music{text-align:center}.music .track{font-size:14px;color:var(--rose);margin-bottom:8px}
-.chat{height:150px;overflow:auto;background:#0003;border-radius:14px;padding:10px}.msg{padding:7px 9px;margin:5px 0;background:#ffffff0b;border-radius:10px;font-size:13px}.msg b{color:var(--pink)}
-.floating{position:fixed;inset:0;pointer-events:none;overflow:hidden}.heart{position:absolute;bottom:-30px;animation:float 3.2s linear forwards}@keyframes float{to{transform:translateY(-110vh) rotate(360deg);opacity:0}}
-.small{font-size:11px;color:var(--muted);text-align:center;margin-top:18px}.hide{display:none!important}
+:root{
+  --bg:#10080f;
+  --card:#1d101c;
+  --pink:#ff8fbd;
+  --rose:#ffd1e2;
+  --muted:#b9a6b3;
+  --line:#ffffff18;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:radial-gradient(circle at 50% -10%,#4a183c 0,#180b17 38%,#0b070b 100%);
+  color:#fff;
+  font-family:Inter,sans-serif;
+  min-height:100vh;
+}
+
+.wrap{
+  max-width:520px;
+  margin:auto;
+  padding:24px 18px 44px;
+}
+
+.hero{
+  text-align:center;
+  padding:22px 0 14px;
+}
+
+.kicker{
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--pink);
+  font-size:11px;
+}
+
+.title{
+  font:700 48px/1 Cormorant Garamond,serif;
+  margin:10px 0 2px;
+}
+
+.title span{color:var(--pink)}
+
+.sub{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.card{
+  background:#ffffff0d;
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:18px;
+  margin:14px 0;
+  backdrop-filter:blur(18px);
+  box-shadow:0 16px 50px #0005;
+}
+
+h2{
+  font:600 26px Cormorant Garamond,serif;
+  margin:0 0 8px;
+}
+
+.hint{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+input,button{
+  width:100%;
+  border-radius:14px;
+  border:1px solid var(--line);
+  padding:14px 15px;
+  font:inherit;
+}
+
+input{
+  background:#0005;
+  color:#fff;
+  margin:8px 0;
+}
+
+button{
+  background:linear-gradient(135deg,#ff77ae,#ffb1cd);
+  color:#240c18;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:8px;
+}
+
+button.secondary{
+  background:#ffffff0d;
+  color:#fff;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:10px;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#777;
+}
+
+.dot.on{
+  background:#65e6a1;
+  box-shadow:0 0 12px #65e6a1;
+}
+
+.room{display:none}
+.room.show{display:block}
+
+.bigheart{
+  font-size:64px;
+  text-align:center;
+  animation:pulse 1.8s infinite;
+}
+
+.names{
+  text-align:center;
+  font:600 28px Cormorant Garamond,serif;
+}
+
+.names b{color:var(--pink)}
+
+@keyframes pulse{
+  50%{transform:scale(1.12)}
+}
+
+.cake{
+  position:relative;
+  width:180px;
+  height:125px;
+  margin:12px auto 18px;
+  cursor:pointer;
+}
+
+.cake .top{
+  position:absolute;
+  left:18px;
+  top:35px;
+  width:144px;
+  height:38px;
+  background:#ffd5e5;
+  border-radius:50%;
+  box-shadow:0 14px 0 #ff8fbd;
+}
+
+.cake .body{
+  position:absolute;
+  left:18px;
+  top:54px;
+  width:144px;
+  height:55px;
+  background:linear-gradient(#ff9fc3,#d95891);
+  border-radius:0 0 22px 22px;
+}
+
+.candle{
+  position:absolute;
+  z-index:2;
+  left:82px;
+  top:7px;
+  width:15px;
+  height:36px;
+  background:#fff0f6;
+  border-radius:4px;
+}
+
+.flame{
+  position:absolute;
+  z-index:3;
+  left:83px;
+  top:-8px;
+  font-size:22px;
+  animation:flicker .5s infinite alternate;
+}
+
+@keyframes flicker{
+  to{transform:scale(1.2) rotate(3deg)}
+}
+
+.cut{
+  animation:cut .8s forwards;
+}
+
+@keyframes cut{
+  50%{
+    transform:rotate(-3deg) scale(.98);
+    filter:brightness(1.3)
+  }
+  100%{
+    transform:scale(.96);
+    opacity:.85
+  }
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+
+.gallery img{
+  width:100%;
+  aspect-ratio:1;
+  border-radius:12px;
+  object-fit:cover;
+  background:#0005;
+}
+
+.music{text-align:center}
+
+.music .track{
+  font-size:14px;
+  color:var(--rose);
+  margin-bottom:8px;
+}
+
+.chat{
+  height:150px;
+  overflow:auto;
+  background:#0003;
+  border-radius:14px;
+  padding:10px;
+}
+
+.msg{
+  padding:7px 9px;
+  margin:5px 0;
+  background:#ffffff0b;
+  border-radius:10px;
+  font-size:13px;
+}
+
+.msg b{color:var(--pink)}
+
+.floating{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.heart{
+  position:absolute;
+  bottom:-30px;
+  animation:float 3.2s linear forwards;
+}
+
+@keyframes float{
+  to{
+    transform:translateY(-110vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+.small{
+  font-size:11px;
+  color:var(--muted);
+  text-align:center;
+  margin-top:18px;
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
-<section class="hero"><div class="kicker">Private Date Room · V7</div><div class="title">Kunji <span>♥</span> Chuchu</div><div class="sub">Two phones. One little world.</div></section>
+
+<section class="hero">
+  <div class="kicker">Private Date Room · V7</div>
+  <div class="title">Kunji <span>♥</span> Chuchu</div>
+  <div class="sub">Two phones. One little world.</div>
+</section>
 
 <section id="connectCard" class="card">
- <h2>Open your Date Room</h2>
- <div class="hint">No room codes. Just choose your name and enter your little world together.</div>
- <input id="name" placeholder="Your name (Kunji / Chuchu)">
- <button id="enterDate">Enter Our Date ♥</button>
- <div id="status" class="status"><span class="dot"></span><span>Ready to connect</span></div>
- </section>
+
+  <h2>Open your Date Room</h2>
+
+  <div class="hint">
+    No room codes. Just choose your name and enter your little world together.
+  </div>
+
+  <input
+    id="name"
+    placeholder="Your name (Kunji / Chuchu)"
+  >
+
+  <button id="enterDate">
+    Enter Our Date ♥
+  </button>
+
+  <div id="status" class="status">
+    <span id="statusDot" class="dot"></span>
+    <span id="statusText">Ready to connect</span>
+  </div>
+
+</section>
+
 
 <section id="room" class="room">
+
 <div class="card">
-<div class="bigheart">♥</div><div class="names"><span id="me">You</span> <b>♥</b> <span id="them">Waiting…</span></div>
-<div class="status"><span id="dot" class="dot"></span><span id="roomStatus">Waiting for your person…</span></div>
+
+  <div class="bigheart">♥</div>
+
+  <div class="names">
+    <span id="me">You</span>
+    <b>♥</b>
+    <span id="them">Waiting…</span>
+  </div>
+
+  <div class="status">
+    <span id="dot" class="dot"></span>
+    <span id="roomStatus">Waiting for your person…</span>
+  </div>
+
 </div>
+
 
 <div class="card music">
-<h2>Our Song</h2><div class="track">Dheema Dheema · Love Insurance Company</div>
-<audio id="audio" controls preload="metadata"><source src="assets/dheema-dheema.mp3" type="audio/mpeg"></audio>
-<div class="row"><button id="play">Play Together</button><button class="secondary" id="pause">Pause Together</button></div>
-<div class="hint" style="margin-top:8px">Add your legally obtained MP3 as <b>assets/dheema-dheema.mp3</b>.</div>
+
+  <h2>Our Song</h2>
+
+  <div class="track">
+    Dheema Dheema · Love Insurance Company
+  </div>
+
+  <audio id="audio" controls preload="metadata">
+    <source
+      src="assets/dheema-dheema.mp3"
+      type="audio/mpeg"
+    >
+  </audio>
+
+  <div class="row">
+    <button id="play">Play Together</button>
+    <button class="secondary" id="pause">
+      Pause Together
+    </button>
+  </div>
+
 </div>
 
-<div class="card">
-<h2>Cut our cake 🎂</h2>
-<div id="cake" class="cake"><div class="flame">🔥</div><div class="candle"></div><div class="top"></div><div class="body"></div></div>
-<button id="cut">Cut Cake Together</button>
-</div>
 
 <div class="card">
-<h2>Our moments 📸</h2>
-<input id="photos" type="file" accept="image/*" multiple>
-<div id="gallery" class="gallery"></div>
+
+  <h2>Cut our cake 🎂</h2>
+
+  <div id="cake" class="cake">
+
+    <div class="flame">🔥</div>
+    <div class="candle"></div>
+    <div class="top"></div>
+    <div class="body"></div>
+
+  </div>
+
+  <button id="cut">
+    Cut Cake Together
+  </button>
+
 </div>
 
-<div class="card">
-<h2>Little messages 💌</h2>
-<div id="chat" class="chat"></div>
-<div class="row"><input id="message" placeholder="Say something…"><button id="send">Send</button></div>
-</div>
 
 <div class="card">
-<h2>Send a little love</h2>
-<div class="row"><button class="secondary" onclick="sendAction('heart')">❤️ Heart</button><button class="secondary" onclick="sendAction('kiss')">💋 Kiss</button></div>
+
+  <h2>Our moments 📸</h2>
+
+  <input
+    id="photos"
+    type="file"
+    accept="image/*"
+    multiple
+  >
+
+  <div id="gallery" class="gallery"></div>
+
 </div>
-<div class="small">V7 · Made for Kunji & Chuchu</div>
+
+
+<div class="card">
+
+  <h2>Little messages 💌</h2>
+
+  <div id="chat" class="chat"></div>
+
+  <div class="row">
+
+    <input
+      id="message"
+      placeholder="Say something…"
+    >
+
+    <button id="send">
+      Send
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="card">
+
+  <h2>Send a little love</h2>
+
+  <div class="row">
+
+    <button
+      class="secondary"
+      onclick="sendAction('heart')"
+    >
+      ❤️ Heart
+    </button>
+
+    <button
+      class="secondary"
+      onclick="sendAction('kiss')"
+    >
+      💋 Kiss
+    </button>
+
+  </div>
+
+</div>
+
+<div class="small">
+  V7 · Made for Kunji & Chuchu
+</div>
+
 </section>
+
 </div>
+
 <div id="floating" class="floating"></div>
+
+
 <script>
-let peer=null, conn=null, myName='', datePeerId='kunji-chuchu-date-v7';
-const DATE_PEER_ID='kunji-chuchu-date-v7';
-const $=id=>document.getElementById(id);
-function setStatus(t,on=false){$('status').innerHTML='<span class="dot '+(on?'on':'')+'"></span><span>'+t+'</span>'}
-function showRoom(){ $('connectCard').style.display='none'; $('room').classList.add('show'); $('me').textContent=myName||'You'; }
-function connect(c){
- conn=c;
- setStatus('Connecting…');
 
- const timeout=setTimeout(()=>{
-   if(!conn || !conn.open){
-     setStatus('Still looking for your person…');
-     $('roomStatus').textContent='Waiting for your person to connect…';
-   }
- },12000);
+const DATE_PEER_ID = "kunji-chuchu-date-v7";
 
- conn.on('open',()=>{
-   clearTimeout(timeout);
-   setStatus('Connected ♥',true);
-   $('dot').classList.add('on');
-   $('roomStatus').textContent='Connected — your Date Room is live';
-   showRoom();
-   conn.send({type:'hello',name:myName});
- });
+let peer = null;
+let conn = null;
+let myName = "";
 
- conn.on('data',handle);
 
- conn.on('close',()=>{
-   clearTimeout(timeout);
-   $('roomStatus').textContent='Connection closed';
-   $('dot').classList.remove('on');
-   setStatus('Disconnected');
- });
+const $ = id => document.getElementById(id);
 
- conn.on('error',e=>{
-   clearTimeout(timeout);
-   console.error('PeerJS connection error:',e);
-   setStatus('Connection error — please try again');
- });
+
+function setStatus(text, connected=false){
+
+  $("statusText").textContent = text;
+
+  $("statusDot").classList.toggle(
+    "on",
+    connected
+  );
+
 }
 
-$('enterDate').onclick=()=>{
- console.log('ENTER DATE CLICKED');
- setStatus('Starting connection…');
- try{
-   myName=$('name').value.trim() || 'Chuchu';
-   setStatus('Connecting…');
 
-   if(peer){
-     try{ peer.destroy(); }catch(e){}
-   }
+function showRoom(){
 
-   // Both phones use the same permanent Date Room identity.
-  peer = new Peer({
-  host: '0.peerjs.com',
-  port: 443,
-  path: '/',
-  secure: true,
-  debug: 3
-});
-  peer.on('open', id => {
-  console.log('Peer connected:', id);
-  setStatus('PeerJS connected ✓');
-});
+  $("connectCard").style.display = "none";
 
-peer.on('error', err => {
-  console.error('PeerJS:', err);
-  setStatus('PeerJS error: ' + err.type);
-});
+  $("room").classList.add("show");
 
-peer.on('disconnected', () => {
-  setStatus('PeerJS disconnected');
-});
-  peer.on('open', id => {
-  console.log('PEER OPEN:', id);
-  setStatus('PeerJS connected ✓');
-});
+  $("me").textContent = myName || "You";
 
-peer.on('disconnected', () => {
-  console.log('PEER DISCONNECTED');
-  setStatus('PeerJS disconnected');
-});
+}
 
-peer.on('error', err => {
-  console.error('PEERJS ERROR:', err);
-  setStatus('PeerJS error: ' + err.type);
-});
 
-   peer.on('open',()=>{
-     setStatus('Waiting for your person…');
-     $('roomStatus').textContent='Waiting for the other phone…';
-     // The first phone owns the permanent Date Room ID and waits.
-     // It must NOT connect to itself.
-   });
+function setRoomStatus(text, connected=false){
 
-   peer.on('connection',c=>{
-     if(!conn || !conn.open) connect(c);
-   });
+  $("roomStatus").textContent = text;
 
-   peer.on('error',e=>{
-     console.error('PeerJS error:',e);
+  $("dot").classList.toggle(
+    "on",
+    connected
+  );
 
-     if(e.type==='unavailable-id'){
-       // The other phone already owns the Date Room ID.
-       // This phone becomes a temporary peer and connects to it.
-       try{ peer.destroy(); }catch(err){}
+}
 
-       peer=new Peer({debug:2});
 
-       peer.on('open',()=>{
-         setStatus('Finding your person…');
-         const c=peer.connect(datePeerId,{reliable:true});
-         connect(c);
-       });
+/* --------------------------------
+   CONNECT TO OTHER PHONE
+-------------------------------- */
 
-       peer.on('error',err=>{
-         console.error('PeerJS fallback error:',err);
-         setStatus('Could not connect: '+(err.type||'unknown'));
-       });
+function connect(connection){
 
-     }else{
-       setStatus('Connection error: '+(e.type||'unknown'));
-     }
-   });
+  conn = connection;
 
- }catch(e){
-   console.error('Date Room error:',e);
-   setStatus('Could not start: '+e.message);
- }
+  setStatus("Connecting…");
+
+  connection.on("open", () => {
+
+    console.log(
+      "PHONE-TO-PHONE CONNECTION OPEN"
+    );
+
+    setStatus(
+      "Connected ♥",
+      true
+    );
+
+    setRoomStatus(
+      "Connected — your Date Room is live",
+      true
+    );
+
+    showRoom();
+
+    connection.send({
+      type:"hello",
+      name:myName
+    });
+
+  });
+
+
+  connection.on("data", data => {
+
+    console.log(
+      "RECEIVED:",
+      data
+    );
+
+    handle(data);
+
+  });
+
+
+  connection.on("close", () => {
+
+    setRoomStatus(
+      "Connection closed"
+    );
+
+    setStatus(
+      "Disconnected"
+    );
+
+  });
+
+
+  connection.on("error", error => {
+
+    console.error(
+      "Connection error:",
+      error
+    );
+
+    setStatus(
+      "Connection error"
+    );
+
+  });
+
+}
+
+
+/* --------------------------------
+   START DATE
+-------------------------------- */
+
+$("enterDate").onclick = () => {
+
+  console.log(
+    "ENTER DATE CLICKED"
+  );
+
+  myName =
+    $("name").value.trim() ||
+    "Chuchu";
+
+  setStatus(
+    "Starting Date Room…"
+  );
+
+
+  if(peer){
+
+    try{
+      peer.destroy();
+    }catch(e){}
+
+  }
+
+
+  /*
+    IMPORTANT:
+
+    We do NOT manually specify
+    host / port / path.
+
+    PeerJS automatically uses
+    its cloud signalling server.
+  */
+
+  peer = new Peer(
+    DATE_PEER_ID,
+    {
+      debug: 3
+    }
+  );
+
+
+  /* PEER READY */
+
+  peer.on("open", id => {
+
+    console.log(
+      "PEER OPEN:",
+      id
+    );
+
+    setStatus(
+      "Waiting for your person…"
+    );
+
+    setRoomStatus(
+      "Waiting for your person…"
+    );
+
+  });
+
+
+  /* OTHER PHONE CONNECTS */
+
+  peer.on("connection", connection => {
+
+    console.log(
+      "INCOMING PHONE:",
+      connection.peer
+    );
+
+    if(!conn){
+
+      connect(connection);
+
+    }
+
+  });
+
+
+  /* SIGNALING DISCONNECTED */
+
+  peer.on("disconnected", () => {
+
+    console.log(
+      "PEER SIGNALING DISCONNECTED"
+    );
+
+    setStatus(
+      "Reconnecting…"
+    );
+
+    setTimeout(() => {
+
+      if(
+        peer &&
+        peer.disconnected &&
+        !peer.destroyed
+      ){
+
+        console.log(
+          "TRYING PEER RECONNECT"
+        );
+
+        peer.reconnect();
+
+      }
+
+    },1000);
+
+  });
+
+
+  /* PEER CLOSED */
+
+  peer.on("close", () => {
+
+    console.log(
+      "PEER CLOSED"
+    );
+
+    setStatus(
+      "Connection closed"
+    );
+
+  });
+
+
+  /* PEER ERROR */
+
+  peer.on("error", error => {
+
+    console.error(
+      "PEERJS ERROR:",
+      error
+    );
+
+
+    if(
+      error.type ===
+      "unavailable-id"
+    ){
+
+      /*
+        The first phone already owns
+        the Date Room ID.
+
+        This phone therefore creates
+        a temporary PeerJS identity
+        and connects to the first phone.
+      */
+
+      console.log(
+        "DATE ROOM EXISTS — JOINING"
+      );
+
+
+      try{
+        peer.destroy();
+      }catch(e){}
+
+
+      peer = new Peer({
+        debug:3
+      });
+
+
+      peer.on("open", temporaryId => {
+
+        console.log(
+          "TEMP PEER:",
+          temporaryId
+        );
+
+        setStatus(
+          "Finding your person…"
+        );
+
+
+        const connection =
+          peer.connect(
+            DATE_PEER_ID,
+            {
+              reliable:true
+            }
+          );
+
+
+        connect(connection);
+
+      });
+
+
+      peer.on("error", joinError => {
+
+        console.error(
+          "JOIN PEER ERROR:",
+          joinError
+        );
+
+        setStatus(
+          "Join error: " +
+          joinError.type
+        );
+
+      });
+
+
+      return;
+
+    }
+
+
+    setStatus(
+      "PeerJS error: " +
+      (error.type || "unknown")
+    );
+
+  });
+
 };
 
-function handle(d){
- if(d.type==='hello'){ $('them').textContent=d.name||'Your person'; }
- if(d.type==='action'){ if(d.action==='heart')floatHearts(8); if(d.action==='kiss')floatHearts(12,'💋'); if(d.action==='cut')doCake(false); if(d.action==='play')syncAudio(true); if(d.action==='pause')syncAudio(false); }
- if(d.type==='msg')addMsg(d.name,d.text);
- if(d.type==='photo')addPhoto(d.data);
+
+/* --------------------------------
+   RECEIVE EVENTS
+-------------------------------- */
+
+function handle(data){
+
+  if(data.type === "hello"){
+
+    $("them").textContent =
+      data.name ||
+      "Your person";
+
+  }
+
+
+  if(data.type === "msg"){
+
+    addMsg(
+      data.name,
+      data.text
+    );
+
+  }
+
+
+  if(data.type === "heart"){
+
+    floatHearts(
+      8,
+      "❤️"
+    );
+
+  }
+
+
+  if(data.type === "kiss"){
+
+    floatHearts(
+      12,
+      "💋"
+    );
+
+  }
+
+
+  if(data.type === "cut"){
+
+    doCake(false);
+
+  }
+
+
+  if(data.type === "play"){
+
+    syncAudio(true);
+
+  }
+
+
+  if(data.type === "pause"){
+
+    syncAudio(false);
+
+  }
+
+
+  if(data.type === "photo"){
+
+    addPhoto(
+      data.data
+    );
+
+  }
+
 }
-function sendAction(action){if(conn&&conn.open)conn.send({type:'action',action}); if(action==='heart')floatHearts(8); if(action==='kiss')floatHearts(12,'💋')}
-function doCake(send=true){$('cake').classList.remove('cut');void $('cake').offsetWidth;$('cake').classList.add('cut');floatHearts(22,'🎉');if(send)sendAction('cut')}
-$('cut').onclick=()=>doCake(true); $('cake').onclick=()=>doCake(true);
-function syncAudio(play){if(play){$('audio').play().catch(()=>{});}else $('audio').pause()}
-$('play').onclick=()=>{syncAudio(true);sendAction('play')}; $('pause').onclick=()=>{syncAudio(false);sendAction('pause')};
-$('send').onclick=()=>{let t=$('message').value.trim();if(!t)return;addMsg(myName,t);if(conn&&conn.open)conn.send({type:'msg',name:myName,text:t});$('message').value=''};
-$('message').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click()});
-function addMsg(n,t){const x=document.createElement('div');x.className='msg';x.innerHTML='<b>'+escapeHtml(n)+':</b> '+escapeHtml(t);$('chat').appendChild(x);$('chat').scrollTop=99999}
-function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-$('photos').onchange=async e=>{for(const f of e.target.files){if(f.size>900000){alert('Please use photos under 900 KB for this demo.');continue}const data=await fileData(f);addPhoto(data);if(conn&&conn.open)conn.send({type:'photo',data})}};
-function fileData(f){return new Promise(r=>{const a=new FileReader();a.onload=()=>r(a.result);a.readAsDataURL(f)})}
-function addPhoto(data){const i=new Image();i.src=data;$('gallery').prepend(i)}
-function floatHearts(n=8,emoji='♥'){for(let i=0;i<n;i++){const s=document.createElement('span');s.className='heart';s.textContent=emoji;s.style.left=Math.random()*100+'%';s.style.fontSize=(18+Math.random()*28)+'px';s.style.animationDuration=(2.5+Math.random()*2)+'s';$('floating').appendChild(s);setTimeout(()=>s.remove(),5000)}}
+
+
+/* --------------------------------
+   LOVE BUTTONS
+-------------------------------- */
+
+function sendAction(action){
+
+  if(
+    conn &&
+    conn.open
+  ){
+
+    conn.send({
+      type:action
+    });
+
+  }
+
+
+  if(action === "heart"){
+
+    floatHearts(
+      8,
+      "❤️"
+    );
+
+  }
+
+
+  if(action === "kiss"){
+
+    floatHearts(
+      12,
+      "💋"
+    );
+
+  }
+
+}
+
+
+/* --------------------------------
+   CAKE
+-------------------------------- */
+
+function doCake(send=true){
+
+  $("cake")
+    .classList
+    .remove("cut");
+
+  void $("cake").offsetWidth;
+
+  $("cake")
+    .classList
+    .add("cut");
+
+  floatHearts(
+    20,
+    "🎉"
+  );
+
+
+  if(
+    send &&
+    conn &&
+    conn.open
+  ){
+
+    conn.send({
+      type:"cut"
+    });
+
+  }
+
+}
+
+
+$("cut").onclick =
+  () => doCake(true);
+
+
+$("cake").onclick =
+  () => doCake(true);
+
+
+/* --------------------------------
+   MUSIC
+-------------------------------- */
+
+function syncAudio(play){
+
+  if(play){
+
+    $("audio")
+      .play()
+      .catch(() => {});
+
+  }else{
+
+    $("audio").pause();
+
+  }
+
+}
+
+
+$("play").onclick = () => {
+
+  syncAudio(true);
+
+  if(
+    conn &&
+    conn.open
+  ){
+
+    conn.send({
+      type:"play"
+    });
+
+  }
+
+};
+
+
+$("pause").onclick = () => {
+
+  syncAudio(false);
+
+  if(
+    conn &&
+    conn.open
+  ){
+
+    conn.send({
+      type:"pause"
+    });
+
+  }
+
+};
+
+
+/* --------------------------------
+   CHAT
+-------------------------------- */
+
+$("send").onclick = () => {
+
+  const text =
+    $("message")
+      .value
+      .trim();
+
+  if(!text)
+    return;
+
+
+  addMsg(
+    myName,
+    text
+  );
+
+
+  if(
+    conn &&
+    conn.open
+  ){
+
+    conn.send({
+      type:"msg",
+      name:myName,
+      text:text
+    });
+
+  }
+
+
+  $("message").value = "";
+
+};
+
+
+$("message")
+  .addEventListener(
+    "keydown",
+    e => {
+
+      if(
+        e.key ===
+        "Enter"
+      ){
+
+        $("send").click();
+
+      }
+
+    }
+  );
+
+
+function addMsg(name,text){
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+  box.className =
+    "msg";
+
+
+  const bold =
+    document.createElement(
+      "b"
+    );
+
+  bold.textContent =
+    name + ":";
+
+
+  box.appendChild(
+    bold
+  );
+
+  box.appendChild(
+    document.createTextNode(
+      " " + text
+    )
+  );
+
+
+  $("chat")
+    .appendChild(box);
+
+
+  $("chat").scrollTop =
+    $("chat").scrollHeight;
+
+}
+
+
+/* --------------------------------
+   PHOTOS
+-------------------------------- */
+
+$("photos").onchange =
+  async event => {
+
+    for(
+      const file
+      of event.target.files
+    ){
+
+      if(
+        file.size >
+        900000
+      ){
+
+        alert(
+          "Please use photos under 900 KB."
+        );
+
+        continue;
+
+      }
+
+
+      const data =
+        await fileData(file);
+
+
+      addPhoto(data);
+
+
+      if(
+        conn &&
+        conn.open
+      ){
+
+        conn.send({
+          type:"photo",
+          data:data
+        });
+
+      }
+
+    }
+
+  };
+
+
+function fileData(file){
+
+  return new Promise(
+    resolve => {
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        () => resolve(
+          reader.result
+        );
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+function addPhoto(data){
+
+  const image =
+    new Image();
+
+  image.src =
+    data;
+
+  $("gallery")
+    .prepend(image);
+
+}
+
+
+/* --------------------------------
+   FLOATING HEARTS
+-------------------------------- */
+
+function floatHearts(
+  count=8,
+  emoji="♥"
+){
+
+  for(
+    let i=0;
+    i<count;
+    i++
+  ){
+
+    const heart =
+      document.createElement(
+        "span"
+      );
+
+    heart.className =
+      "heart";
+
+    heart.textContent =
+      emoji;
+
+    heart.style.left =
+      Math.random()*100 +
+      "%";
+
+    heart.style.fontSize =
+      (18 +
+      Math.random()*28) +
+      "px";
+
+    heart.style.animationDuration =
+      (2.5 +
+      Math.random()*2) +
+      "s";
+
+
+    $("floating")
+      .appendChild(
+        heart
+      );
+
+
+    setTimeout(
+      () => heart.remove(),
+      5000
+    );
+
+  }
+
+}
+
 </script>
+
 </body>
 </html>
