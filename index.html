@@ -129,7 +129,28 @@ $('enterDate').onclick=()=>{
    }
 
    // Both phones use the same permanent Date Room identity.
-   peer=new Peer(datePeerId,{debug:2});
+   peer = new Peer({
+     debug: 3,
+     config: {
+       iceServers: [
+         { urls: 'stun:stun.l.google.com:19302' }
+       ]
+     }
+   });
+  peer.on('open', id => {
+  console.log('PEER OPEN:', id);
+  setStatus('PeerJS connected ✓');
+});
+
+peer.on('disconnected', () => {
+  console.log('PEER DISCONNECTED');
+  setStatus('PeerJS disconnected');
+});
+
+peer.on('error', err => {
+  console.error('PEERJS ERROR:', err);
+  setStatus('PeerJS error: ' + err.type);
+});
 
    peer.on('open',()=>{
      setStatus('Waiting for your person…');
