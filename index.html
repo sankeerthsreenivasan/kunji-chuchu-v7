@@ -8,1277 +8,418 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
-:root{
-  --bg:#10080f;
-  --card:#1d101c;
-  --pink:#ff8fbd;
-  --rose:#ffd1e2;
-  --muted:#b9a6b3;
-  --line:#ffffff18;
-}
-
+:root{--bg:#10080f;--pink:#ff8fbd;--rose:#ffd1e2;--muted:#b9a6b3;--line:#ffffff18}
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:radial-gradient(circle at 50% -10%,#4a183c 0,#180b17 38%,#0b070b 100%);
-  color:#fff;
-  font-family:Inter,sans-serif;
-  min-height:100vh;
-}
-
-.wrap{
-  max-width:520px;
-  margin:auto;
-  padding:24px 18px 44px;
-}
-
-.hero{
-  text-align:center;
-  padding:22px 0 14px;
-}
-
-.kicker{
-  letter-spacing:.24em;
-  text-transform:uppercase;
-  color:var(--pink);
-  font-size:11px;
-}
-
-.title{
-  font:700 48px/1 Cormorant Garamond,serif;
-  margin:10px 0 2px;
-}
-
-.title span{color:var(--pink)}
-
-.sub{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.card{
-  background:#ffffff0d;
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:18px;
-  margin:14px 0;
-  backdrop-filter:blur(18px);
-  box-shadow:0 16px 50px #0005;
-}
-
-h2{
-  font:600 26px Cormorant Garamond,serif;
-  margin:0 0 8px;
-}
-
-.hint{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-}
-
-input,button{
-  width:100%;
-  border-radius:14px;
-  border:1px solid var(--line);
-  padding:14px 15px;
-  font:inherit;
-}
-
-input{
-  background:#0005;
-  color:#fff;
-  margin:8px 0;
-}
-
-button{
-  background:linear-gradient(135deg,#ff77ae,#ffb1cd);
-  color:#240c18;
-  font-weight:700;
-  cursor:pointer;
-  margin-top:8px;
-}
-
-button.secondary{
-  background:#ffffff0d;
-  color:#fff;
-}
-
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:12px;
-  color:var(--muted);
-  margin-top:10px;
-}
-
-.dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:#777;
-}
-
-.dot.on{
-  background:#65e6a1;
-  box-shadow:0 0 12px #65e6a1;
-}
-
-.room{display:none}
-.room.show{display:block}
-
-.bigheart{
-  font-size:64px;
-  text-align:center;
-  animation:pulse 1.8s infinite;
-}
-
-.names{
-  text-align:center;
-  font:600 28px Cormorant Garamond,serif;
-}
-
-.names b{color:var(--pink)}
-
-@keyframes pulse{
-  50%{transform:scale(1.12)}
-}
-
-.cake{
-  position:relative;
-  width:180px;
-  height:125px;
-  margin:12px auto 18px;
-  cursor:pointer;
-}
-
-.cake .top{
-  position:absolute;
-  left:18px;
-  top:35px;
-  width:144px;
-  height:38px;
-  background:#ffd5e5;
-  border-radius:50%;
-  box-shadow:0 14px 0 #ff8fbd;
-}
-
-.cake .body{
-  position:absolute;
-  left:18px;
-  top:54px;
-  width:144px;
-  height:55px;
-  background:linear-gradient(#ff9fc3,#d95891);
-  border-radius:0 0 22px 22px;
-}
-
-.candle{
-  position:absolute;
-  z-index:2;
-  left:82px;
-  top:7px;
-  width:15px;
-  height:36px;
-  background:#fff0f6;
-  border-radius:4px;
-}
-
-.flame{
-  position:absolute;
-  z-index:3;
-  left:83px;
-  top:-8px;
-  font-size:22px;
-  animation:flicker .5s infinite alternate;
-}
-
-@keyframes flicker{
-  to{transform:scale(1.2) rotate(3deg)}
-}
-
-.cut{
-  animation:cut .8s forwards;
-}
-
-@keyframes cut{
-  50%{
-    transform:rotate(-3deg) scale(.98);
-    filter:brightness(1.3)
-  }
-  100%{
-    transform:scale(.96);
-    opacity:.85
-  }
-}
-
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:7px;
-}
-
-.gallery img{
-  width:100%;
-  aspect-ratio:1;
-  border-radius:12px;
-  object-fit:cover;
-  background:#0005;
-}
-
-.music{text-align:center}
-
-.music .track{
-  font-size:14px;
-  color:var(--rose);
-  margin-bottom:8px;
-}
-
-.chat{
-  height:150px;
-  overflow:auto;
-  background:#0003;
-  border-radius:14px;
-  padding:10px;
-}
-
-.msg{
-  padding:7px 9px;
-  margin:5px 0;
-  background:#ffffff0b;
-  border-radius:10px;
-  font-size:13px;
-}
-
-.msg b{color:var(--pink)}
-
-.floating{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-.heart{
-  position:absolute;
-  bottom:-30px;
-  animation:float 3.2s linear forwards;
-}
-
-@keyframes float{
-  to{
-    transform:translateY(-110vh) rotate(360deg);
-    opacity:0;
-  }
-}
-
-.small{
-  font-size:11px;
-  color:var(--muted);
-  text-align:center;
-  margin-top:18px;
-}
+body{margin:0;background:radial-gradient(circle at 50% -10%,#4a183c 0,#180b17 38%,#0b070b 100%);color:#fff;font-family:Inter,sans-serif;min-height:100vh}
+.wrap{max-width:520px;margin:auto;padding:24px 18px 44px}
+.hero{text-align:center;padding:22px 0 14px}
+.kicker{letter-spacing:.24em;text-transform:uppercase;color:var(--pink);font-size:11px}
+.title{font:700 48px/1 Cormorant Garamond,serif;margin:10px 0 2px}.title span{color:var(--pink)}
+.sub{color:var(--muted);font-size:13px}
+.card{background:#ffffff0d;border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;backdrop-filter:blur(18px);box-shadow:0 16px 50px #0005}
+h2{font:600 26px Cormorant Garamond,serif;margin:0 0 8px}
+.hint{font-size:12px;color:var(--muted);line-height:1.5}
+input,button{width:100%;border-radius:14px;border:1px solid var(--line);padding:14px 15px;font:inherit}
+input{background:#0005;color:#fff;margin:8px 0}
+button{background:linear-gradient(135deg,#ff77ae,#ffb1cd);color:#240c18;font-weight:700;cursor:pointer;margin-top:8px}
+button.secondary{background:#ffffff0d;color:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:10px}
+.dot{width:9px;height:9px;border-radius:50%;background:#777}.dot.on{background:#65e6a1;box-shadow:0 0 12px #65e6a1}
+.room{display:none}.room.show{display:block}
+.bigheart{font-size:64px;text-align:center;animation:pulse 1.8s infinite}
+.names{text-align:center;font:600 28px Cormorant Garamond,serif}.names b{color:var(--pink)}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.cake{position:relative;width:180px;height:125px;margin:12px auto 18px;cursor:pointer}
+.cake .top{position:absolute;left:18px;top:35px;width:144px;height:38px;background:#ffd5e5;border-radius:50%;box-shadow:0 14px 0 #ff8fbd}
+.cake .body{position:absolute;left:18px;top:54px;width:144px;height:55px;background:linear-gradient(#ff9fc3,#d95891);border-radius:0 0 22px 22px}
+.candle{position:absolute;z-index:2;left:82px;top:7px;width:15px;height:36px;background:#fff0f6;border-radius:4px}
+.flame{position:absolute;z-index:3;left:83px;top:-8px;font-size:22px;animation:flicker .5s infinite alternate}
+@keyframes flicker{to{transform:scale(1.2) rotate(3deg)}}
+.cut{animation:cut .8s forwards}@keyframes cut{50%{transform:rotate(-3deg) scale(.98);filter:brightness(1.3)}100%{transform:scale(.96);opacity:.85}}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.gallery img{width:100%;aspect-ratio:1;border-radius:12px;object-fit:cover;background:#0005}
+.music{text-align:center}.music .track{font-size:14px;color:var(--rose);margin-bottom:8px}
+.chat{height:150px;overflow:auto;background:#0003;border-radius:14px;padding:10px}
+.msg{padding:7px 9px;margin:5px 0;background:#ffffff0b;border-radius:10px;font-size:13px}.msg b{color:var(--pink)}
+.floating{position:fixed;inset:0;pointer-events:none;overflow:hidden}.heart{position:absolute;bottom:-30px;animation:float 3.2s linear forwards}
+@keyframes float{to{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+.small{font-size:11px;color:var(--muted);text-align:center;margin-top:18px}
 </style>
 </head>
 
 <body>
-
 <div class="wrap">
 
 <section class="hero">
-  <div class="kicker">Private Date Room · V7</div>
-  <div class="title">Kunji <span>♥</span> Chuchu</div>
-  <div class="sub">Two phones. One little world.</div>
+<div class="kicker">Private Date Room · V7</div>
+<div class="title">Kunji <span>♥</span> Chuchu</div>
+<div class="sub">Two phones. One little world.</div>
 </section>
 
 <section id="connectCard" class="card">
-
-  <h2>Open your Date Room</h2>
-
-  <div class="hint">
-    No room codes. Just choose your name and enter your little world together.
-  </div>
-
-  <input
-    id="name"
-    placeholder="Your name (Kunji / Chuchu)"
-  >
-
-  <button id="enterDate">
-    Enter Our Date ♥
-  </button>
-
-  <div id="status" class="status">
-    <span id="statusDot" class="dot"></span>
-    <span id="statusText">Ready to connect</span>
-  </div>
-
+<h2>Open your Date Room</h2>
+<div class="hint">No room codes. Choose your name and enter.</div>
+<input id="name" placeholder="Your name (Kunji / Chuchu)">
+<button id="enterDate">Enter Our Date ♥</button>
+<div id="status" class="status"><span id="statusDot" class="dot"></span><span id="statusText">Ready to connect</span></div>
 </section>
-
 
 <section id="room" class="room">
-
 <div class="card">
-
-  <div class="bigheart">♥</div>
-
-  <div class="names">
-    <span id="me">You</span>
-    <b>♥</b>
-    <span id="them">Waiting…</span>
-  </div>
-
-  <div class="status">
-    <span id="dot" class="dot"></span>
-    <span id="roomStatus">Waiting for your person…</span>
-  </div>
-
+<div class="bigheart">♥</div>
+<div class="names"><span id="me">You</span> <b>♥</b> <span id="them">Waiting…</span></div>
+<div class="status"><span id="dot" class="dot"></span><span id="roomStatus">Waiting for your person…</span></div>
 </div>
-
 
 <div class="card music">
-
-  <h2>Our Song</h2>
-
-  <div class="track">
-    Dheema Dheema · Love Insurance Company
-  </div>
-
-  <audio id="audio" controls preload="metadata">
-    <source
-      src="assets/dheema-dheema.mp3"
-      type="audio/mpeg"
-    >
-  </audio>
-
-  <div class="row">
-    <button id="play">Play Together</button>
-    <button class="secondary" id="pause">
-      Pause Together
-    </button>
-  </div>
-
+<h2>Our Song</h2>
+<div class="track">Dheema Dheema · Love Insurance Company</div>
+<audio id="audio" controls preload="metadata">
+<source src="assets/dheema-dheema.mp3" type="audio/mpeg">
+</audio>
+<div class="row"><button id="play">Play Together</button><button class="secondary" id="pause">Pause Together</button></div>
 </div>
-
 
 <div class="card">
-
-  <h2>Cut our cake 🎂</h2>
-
-  <div id="cake" class="cake">
-
-    <div class="flame">🔥</div>
-    <div class="candle"></div>
-    <div class="top"></div>
-    <div class="body"></div>
-
-  </div>
-
-  <button id="cut">
-    Cut Cake Together
-  </button>
-
+<h2>Cut our cake 🎂</h2>
+<div id="cake" class="cake"><div class="flame">🔥</div><div class="candle"></div><div class="top"></div><div class="body"></div></div>
+<button id="cut">Cut Cake Together</button>
 </div>
-
 
 <div class="card">
-
-  <h2>Our moments 📸</h2>
-
-  <input
-    id="photos"
-    type="file"
-    accept="image/*"
-    multiple
-  >
-
-  <div id="gallery" class="gallery"></div>
-
+<h2>Our moments 📸</h2>
+<input id="photos" type="file" accept="image/*" multiple>
+<div id="gallery" class="gallery"></div>
 </div>
-
 
 <div class="card">
-
-  <h2>Little messages 💌</h2>
-
-  <div id="chat" class="chat"></div>
-
-  <div class="row">
-
-    <input
-      id="message"
-      placeholder="Say something…"
-    >
-
-    <button id="send">
-      Send
-    </button>
-
-  </div>
-
+<h2>Little messages 💌</h2>
+<div id="chat" class="chat"></div>
+<div class="row"><input id="message" placeholder="Say something…"><button id="send">Send</button></div>
 </div>
-
 
 <div class="card">
-
-  <h2>Send a little love</h2>
-
-  <div class="row">
-
-    <button
-      class="secondary"
-      onclick="sendAction('heart')"
-    >
-      ❤️ Heart
-    </button>
-
-    <button
-      class="secondary"
-      onclick="sendAction('kiss')"
-    >
-      💋 Kiss
-    </button>
-
-  </div>
-
+<h2>Send a little love</h2>
+<div class="row">
+<button class="secondary" id="heartBtn">❤️ Heart</button>
+<button class="secondary" id="kissBtn">💋 Kiss</button>
+</div>
 </div>
 
-<div class="small">
-  V7 · Made for Kunji & Chuchu
-</div>
-
+<div class="small">V7 · Made for Kunji & Chuchu</div>
 </section>
-
 </div>
 
 <div id="floating" class="floating"></div>
 
-
 <script>
-
-const DATE_PEER_ID = "kunji-chuchu-date-v7";
+const ROOM_ID = "kunji-chuchu-date-v7";
+const RENDEZVOUS_ID = "kunji-chuchu-rendezvous-v7";
 
 let peer = null;
 let conn = null;
 let myName = "";
-
+let role = "";
+let reconnectTimer = null;
 
 const $ = id => document.getElementById(id);
 
-
-function setStatus(text, connected=false){
-
+function setStatus(text, on=false){
   $("statusText").textContent = text;
-
-  $("statusDot").classList.toggle(
-    "on",
-    connected
-  );
-
+  $("statusDot").classList.toggle("on", on);
 }
 
+function setRoomStatus(text, on=false){
+  $("roomStatus").textContent = text;
+  $("dot").classList.toggle("on", on);
+}
 
 function showRoom(){
-
   $("connectCard").style.display = "none";
-
   $("room").classList.add("show");
-
   $("me").textContent = myName || "You";
-
 }
 
-
-function setRoomStatus(text, connected=false){
-
-  $("roomStatus").textContent = text;
-
-  $("dot").classList.toggle(
-    "on",
-    connected
-  );
-
+function makePeer(id){
+  return id ? new Peer(id,{debug:2}) : new Peer({debug:2});
 }
 
+function clearConnection(){
+  if(conn){
+    try{conn.close();}catch(e){}
+    conn=null;
+  }
+}
 
-/* --------------------------------
-   CONNECT TO OTHER PHONE
--------------------------------- */
-
-function connect(connection){
-
-  conn = connection;
+function connect(c){
+  clearConnection();
+  conn=c;
 
   setStatus("Connecting…");
+  setRoomStatus("Connecting to your person…");
 
-  connection.on("open", () => {
-
-    console.log(
-      "PHONE-TO-PHONE CONNECTION OPEN"
-    );
-
-    setStatus(
-      "Connected ♥",
-      true
-    );
-
-    setRoomStatus(
-      "Connected — your Date Room is live",
-      true
-    );
-
+  c.on("open",()=>{
+    console.log("DATA CONNECTION OPEN", c.peer);
+    setStatus("Connected ♥",true);
+    setRoomStatus("Connected — your Date Room is live",true);
     showRoom();
 
-    connection.send({
-      type:"hello",
-      name:myName
-    });
-
+    try{
+      c.send({type:"hello",name:myName});
+    }catch(e){
+      console.error(e);
+    }
   });
 
+  c.on("data",handle);
 
-  connection.on("data", data => {
-
-    console.log(
-      "RECEIVED:",
-      data
-    );
-
-    handle(data);
-
+  c.on("close",()=>{
+    console.log("DATA CONNECTION CLOSED");
+    conn=null;
+    setRoomStatus("Connection closed — waiting for your person…");
+    setStatus("Waiting for your person…");
   });
 
-
-  connection.on("close", () => {
-
-    setRoomStatus(
-      "Connection closed"
-    );
-
-    setStatus(
-      "Disconnected"
-    );
-
+  c.on("error",e=>{
+    console.error("DATA CONNECTION ERROR",e);
+    setStatus("Connection error");
   });
-
-
-  connection.on("error", error => {
-
-    console.error(
-      "Connection error:",
-      error
-    );
-
-    setStatus(
-      "Connection error"
-    );
-
-  });
-
 }
 
+function startHost(){
+  role="host";
+  setStatus("Opening Date Room…");
 
-/* --------------------------------
-   START DATE
--------------------------------- */
+  try{if(peer)peer.destroy();}catch(e){}
+  peer=makePeer(ROOM_ID);
 
-$("enterDate").onclick = () => {
+  peer.on("open",id=>{
+    console.log("HOST PEER OPEN",id);
+    setStatus("Waiting for your person…");
+    setRoomStatus("Waiting for your person…");
+  });
 
-  console.log(
-    "ENTER DATE CLICKED"
-  );
+  peer.on("connection",c=>{
+    console.log("HOST RECEIVED CONNECTION",c.peer);
+    connect(c);
+  });
 
-  myName =
-    $("name").value.trim() ||
-    "Chuchu";
-
-  setStatus(
-    "Starting Date Room…"
-  );
-
-
-  if(peer){
-
-    try{
-      peer.destroy();
-    }catch(e){}
-
-  }
-
-
-  /*
-    IMPORTANT:
-
-    We do NOT manually specify
-    host / port / path.
-
-    PeerJS automatically uses
-    its cloud signalling server.
-  */
-
-  peer = new Peer(
-    DATE_PEER_ID,
-    {
-      debug: 3
+  peer.on("disconnected",()=>{
+    console.log("HOST SIGNAL DISCONNECTED");
+    setStatus("Reconnecting to Date Room…");
+    if(peer && !peer.destroyed){
+      setTimeout(()=>{
+        if(peer && peer.disconnected && !peer.destroyed){
+          try{peer.reconnect();}catch(e){console.error(e);}
+        }
+      },1000);
     }
-  );
-
-
-  /* PEER READY */
-
-  peer.on("open", id => {
-
-    console.log(
-      "PEER OPEN:",
-      id
-    );
-
-    setStatus(
-      "Waiting for your person…"
-    );
-
-    setRoomStatus(
-      "Waiting for your person…"
-    );
-
   });
 
-
-  /* OTHER PHONE CONNECTS */
-
-  peer.on("connection", connection => {
-
-    console.log(
-      "INCOMING PHONE:",
-      connection.peer
-    );
-
-    if(!conn){
-
-      connect(connection);
-
-    }
-
+  peer.on("close",()=>{
+    console.log("HOST PEER CLOSED");
+    setStatus("Date Room closed");
   });
 
+  peer.on("error",e=>{
+    console.error("HOST PEER ERROR",e);
 
-  /* SIGNALING DISCONNECTED */
-
-  peer.on("disconnected", () => {
-
-    console.log(
-      "PEER SIGNALING DISCONNECTED"
-    );
-
-    setStatus(
-      "Reconnecting…"
-    );
-
-    setTimeout(() => {
-
-      if(
-        peer &&
-        peer.disconnected &&
-        !peer.destroyed
-      ){
-
-        console.log(
-          "TRYING PEER RECONNECT"
-        );
-
-        peer.reconnect();
-
-      }
-
-    },1000);
-
-  });
-
-
-  /* PEER CLOSED */
-
-  peer.on("close", () => {
-
-    console.log(
-      "PEER CLOSED"
-    );
-
-    setStatus(
-      "Connection closed"
-    );
-
-  });
-
-
-  /* PEER ERROR */
-
-  peer.on("error", error => {
-
-    console.error(
-      "PEERJS ERROR:",
-      error
-    );
-
-
-    if(
-      error.type ===
-      "unavailable-id"
-    ){
-
-      /*
-        The first phone already owns
-        the Date Room ID.
-
-        This phone therefore creates
-        a temporary PeerJS identity
-        and connects to the first phone.
-      */
-
-      console.log(
-        "DATE ROOM EXISTS — JOINING"
-      );
-
-
-      try{
-        peer.destroy();
-      }catch(e){}
-
-
-      peer = new Peer({
-        debug:3
-      });
-
-
-      peer.on("open", temporaryId => {
-
-        console.log(
-          "TEMP PEER:",
-          temporaryId
-        );
-
-        setStatus(
-          "Finding your person…"
-        );
-
-
-        const connection =
-          peer.connect(
-            DATE_PEER_ID,
-            {
-              reliable:true
-            }
-          );
-
-
-        connect(connection);
-
-      });
-
-
-      peer.on("error", joinError => {
-
-        console.error(
-          "JOIN PEER ERROR:",
-          joinError
-        );
-
-        setStatus(
-          "Join error: " +
-          joinError.type
-        );
-
-      });
-
-
+    if(e.type==="unavailable-id"){
+      console.log("ROOM ALREADY EXISTS — BECOMING GUEST");
+      startGuest();
       return;
-
     }
 
+    setStatus("PeerJS error: "+(e.type||"unknown"));
+  });
+}
 
-    setStatus(
-      "PeerJS error: " +
-      (error.type || "unknown")
-    );
+function startGuest(){
+  role="guest";
+  setStatus("Finding your person…");
 
+  try{if(peer)peer.destroy();}catch(e){}
+  peer=makePeer();
+
+  peer.on("open",temporaryId=>{
+    console.log("GUEST TEMP PEER OPEN",temporaryId);
+
+    setStatus("Connecting to your person…");
+
+    const c=peer.connect(ROOM_ID,{
+      reliable:true,
+      serialization:"json"
+    });
+
+    connect(c);
   });
 
+  peer.on("disconnected",()=>{
+    console.log("GUEST SIGNAL DISCONNECTED");
+    setStatus("Reconnecting…");
+
+    if(peer && !peer.destroyed){
+      setTimeout(()=>{
+        if(peer && peer.disconnected && !peer.destroyed){
+          try{peer.reconnect();}catch(e){console.error(e);}
+        }
+      },1000);
+    }
+  });
+
+  peer.on("close",()=>{
+    console.log("GUEST PEER CLOSED");
+    setStatus("Date Room closed");
+  });
+
+  peer.on("error",e=>{
+    console.error("GUEST PEER ERROR",e);
+    setStatus("Join error: "+(e.type||"unknown"));
+  });
+}
+
+$("enterDate").onclick=()=>{
+  myName=$("name").value.trim()||"Chuchu";
+  showRoom();
+  setRoomStatus("Opening Date Room…");
+  startHost();
 };
-
-
-/* --------------------------------
-   RECEIVE EVENTS
--------------------------------- */
 
 function handle(data){
+  console.log("RECEIVED",data);
 
-  if(data.type === "hello"){
-
-    $("them").textContent =
-      data.name ||
-      "Your person";
-
+  if(data.type==="hello"){
+    $("them").textContent=data.name||"Your person";
   }
 
-
-  if(data.type === "msg"){
-
-    addMsg(
-      data.name,
-      data.text
-    );
-
+  if(data.type==="msg"){
+    addMsg(data.name||"Your person",data.text||"");
   }
 
+  if(data.type==="heart") floatHearts(8,"❤️");
+  if(data.type==="kiss") floatHearts(12,"💋");
+  if(data.type==="cut") doCake(false);
+  if(data.type==="play") syncAudio(true);
+  if(data.type==="pause") syncAudio(false);
 
-  if(data.type === "heart"){
-
-    floatHearts(
-      8,
-      "❤️"
-    );
-
-  }
-
-
-  if(data.type === "kiss"){
-
-    floatHearts(
-      12,
-      "💋"
-    );
-
-  }
-
-
-  if(data.type === "cut"){
-
-    doCake(false);
-
-  }
-
-
-  if(data.type === "play"){
-
-    syncAudio(true);
-
-  }
-
-
-  if(data.type === "pause"){
-
-    syncAudio(false);
-
-  }
-
-
-  if(data.type === "photo"){
-
-    addPhoto(
-      data.data
-    );
-
-  }
-
+  if(data.type==="photo") addPhoto(data.data);
 }
 
-
-/* --------------------------------
-   LOVE BUTTONS
--------------------------------- */
+function send(data){
+  if(conn && conn.open){
+    try{
+      conn.send(data);
+      return true;
+    }catch(e){
+      console.error(e);
+    }
+  }
+  return false;
+}
 
 function sendAction(action){
-
-  if(
-    conn &&
-    conn.open
-  ){
-
-    conn.send({
-      type:action
-    });
-
-  }
-
-
-  if(action === "heart"){
-
-    floatHearts(
-      8,
-      "❤️"
-    );
-
-  }
-
-
-  if(action === "kiss"){
-
-    floatHearts(
-      12,
-      "💋"
-    );
-
-  }
-
+  send({type:action});
+  if(action==="heart")floatHearts(8,"❤️");
+  if(action==="kiss")floatHearts(12,"💋");
 }
 
+$("heartBtn").onclick=()=>sendAction("heart");
+$("kissBtn").onclick=()=>sendAction("kiss");
 
-/* --------------------------------
-   CAKE
--------------------------------- */
-
-function doCake(send=true){
-
-  $("cake")
-    .classList
-    .remove("cut");
-
+function doCake(sendIt=true){
+  $("cake").classList.remove("cut");
   void $("cake").offsetWidth;
-
-  $("cake")
-    .classList
-    .add("cut");
-
-  floatHearts(
-    20,
-    "🎉"
-  );
-
-
-  if(
-    send &&
-    conn &&
-    conn.open
-  ){
-
-    conn.send({
-      type:"cut"
-    });
-
-  }
-
+  $("cake").classList.add("cut");
+  floatHearts(20,"🎉");
+  if(sendIt)send({type:"cut"});
 }
 
-
-$("cut").onclick =
-  () => doCake(true);
-
-
-$("cake").onclick =
-  () => doCake(true);
-
-
-/* --------------------------------
-   MUSIC
--------------------------------- */
+$("cut").onclick=()=>doCake(true);
+$("cake").onclick=()=>doCake(true);
 
 function syncAudio(play){
-
-  if(play){
-
-    $("audio")
-      .play()
-      .catch(() => {});
-
-  }else{
-
-    $("audio").pause();
-
-  }
-
+  if(play)$("audio").play().catch(()=>{});
+  else $("audio").pause();
 }
 
-
-$("play").onclick = () => {
-
+$("play").onclick=()=>{
   syncAudio(true);
-
-  if(
-    conn &&
-    conn.open
-  ){
-
-    conn.send({
-      type:"play"
-    });
-
-  }
-
+  send({type:"play"});
 };
 
-
-$("pause").onclick = () => {
-
+$("pause").onclick=()=>{
   syncAudio(false);
-
-  if(
-    conn &&
-    conn.open
-  ){
-
-    conn.send({
-      type:"pause"
-    });
-
-  }
-
+  send({type:"pause"});
 };
 
+$("send").onclick=()=>{
+  const text=$("message").value.trim();
+  if(!text)return;
 
-/* --------------------------------
-   CHAT
--------------------------------- */
-
-$("send").onclick = () => {
-
-  const text =
-    $("message")
-      .value
-      .trim();
-
-  if(!text)
-    return;
-
-
-  addMsg(
-    myName,
-    text
-  );
-
-
-  if(
-    conn &&
-    conn.open
-  ){
-
-    conn.send({
-      type:"msg",
-      name:myName,
-      text:text
-    });
-
-  }
-
-
-  $("message").value = "";
-
+  addMsg(myName,text);
+  send({type:"msg",name:myName,text});
+  $("message").value="";
 };
 
-
-$("message")
-  .addEventListener(
-    "keydown",
-    e => {
-
-      if(
-        e.key ===
-        "Enter"
-      ){
-
-        $("send").click();
-
-      }
-
-    }
-  );
-
+$("message").addEventListener("keydown",e=>{
+  if(e.key==="Enter")$("send").click();
+});
 
 function addMsg(name,text){
+  const box=document.createElement("div");
+  box.className="msg";
 
-  const box =
-    document.createElement(
-      "div"
-    );
+  const b=document.createElement("b");
+  b.textContent=name+":";
 
-  box.className =
-    "msg";
-
-
-  const bold =
-    document.createElement(
-      "b"
-    );
-
-  bold.textContent =
-    name + ":";
-
-
-  box.appendChild(
-    bold
-  );
-
-  box.appendChild(
-    document.createTextNode(
-      " " + text
-    )
-  );
-
-
-  $("chat")
-    .appendChild(box);
-
-
-  $("chat").scrollTop =
-    $("chat").scrollHeight;
-
+  box.appendChild(b);
+  box.appendChild(document.createTextNode(" "+text));
+  $("chat").appendChild(box);
+  $("chat").scrollTop=$("chat").scrollHeight;
 }
 
-
-/* --------------------------------
-   PHOTOS
--------------------------------- */
-
-$("photos").onchange =
-  async event => {
-
-    for(
-      const file
-      of event.target.files
-    ){
-
-      if(
-        file.size >
-        900000
-      ){
-
-        alert(
-          "Please use photos under 900 KB."
-        );
-
-        continue;
-
-      }
-
-
-      const data =
-        await fileData(file);
-
-
-      addPhoto(data);
-
-
-      if(
-        conn &&
-        conn.open
-      ){
-
-        conn.send({
-          type:"photo",
-          data:data
-        });
-
-      }
-
+$("photos").onchange=async e=>{
+  for(const file of e.target.files){
+    if(file.size>900000){
+      alert("Please use photos under 900 KB.");
+      continue;
     }
 
-  };
-
+    const data=await fileData(file);
+    addPhoto(data);
+    send({type:"photo",data});
+  }
+};
 
 function fileData(file){
-
-  return new Promise(
-    resolve => {
-
-      const reader =
-        new FileReader();
-
-      reader.onload =
-        () => resolve(
-          reader.result
-        );
-
-      reader.readAsDataURL(
-        file
-      );
-
-    }
-  );
-
+  return new Promise(resolve=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
 }
-
 
 function addPhoto(data){
-
-  const image =
-    new Image();
-
-  image.src =
-    data;
-
-  $("gallery")
-    .prepend(image);
-
+  const image=new Image();
+  image.src=data;
+  $("gallery").prepend(image);
 }
 
-
-/* --------------------------------
-   FLOATING HEARTS
--------------------------------- */
-
-function floatHearts(
-  count=8,
-  emoji="♥"
-){
-
-  for(
-    let i=0;
-    i<count;
-    i++
-  ){
-
-    const heart =
-      document.createElement(
-        "span"
-      );
-
-    heart.className =
-      "heart";
-
-    heart.textContent =
-      emoji;
-
-    heart.style.left =
-      Math.random()*100 +
-      "%";
-
-    heart.style.fontSize =
-      (18 +
-      Math.random()*28) +
-      "px";
-
-    heart.style.animationDuration =
-      (2.5 +
-      Math.random()*2) +
-      "s";
-
-
-    $("floating")
-      .appendChild(
-        heart
-      );
-
-
-    setTimeout(
-      () => heart.remove(),
-      5000
-    );
-
+function floatHearts(count=8,emoji="♥"){
+  for(let i=0;i<count;i++){
+    const heart=document.createElement("span");
+    heart.className="heart";
+    heart.textContent=emoji;
+    heart.style.left=Math.random()*100+"%";
+    heart.style.fontSize=(18+Math.random()*28)+"px";
+    heart.style.animationDuration=(2.5+Math.random()*2)+"s";
+    $("floating").appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
   }
-
 }
-
 </script>
-
 </body>
 </html>
